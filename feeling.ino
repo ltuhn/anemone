@@ -25,7 +25,7 @@ void loop() {
 }
 
 String checkFeeling() {
-  if (feeling.equalsIgnoreCase("neutral")) {
+  if (feeling.equalsIgnoreCase("neutral")) { //er ikke helt sikker på om equalsIgnoreCase() fungerer likt som java i Arduino IDE
     neutral();
   }
   if (feeling.equalsIgnoreCase("happy")) {
