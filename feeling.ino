@@ -3,7 +3,7 @@ int touchSensor2 = 3;
 int screen = 4; 
 int piezo = 5;
 
-String feeling = "neutral"; 
+String feeling = "neutral"; //kan også bare bruke en int for dette
   
 void setup() {
   pinMode(touchSensor1, INPUT);
