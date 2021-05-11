@@ -2,6 +2,9 @@ int touchSensor1 = 2;
 int touchSensor2 = 3;
 int screen = 4; 
 int piezo = 5;
+int sleepButton = 6; 
+int potentiometer = 7;
+
 int counter = 0;
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
@@ -9,19 +12,25 @@ String feeling = "neutral"; //kan også bare bruke en int for dette
 void setup() {
   pinMode(touchSensor1, INPUT);
   pinMode(touchSensor2, INPUT);
+  pinMode(sleepButton, INPUT_PULLUP);
   pinMode(screen, OUTPUT);
   pinMode(piezo, OUTPUT);
+  
   currentTime = millis();
 }
 
 void loop() {
   int touchState1 = digitalRead(touchSensor1);
   int touchState2 = digitalRead(touchSensor2);
+  int buttonState = digitalRead(sleepButton);
   
   checkFeeling(); 
   
   if (touchState1 == HIGH or touchState2 == HIGH) {
     petting();
+  }
+  if (buttonState == LOW) {
+    //sleep
   }
   //osv. 
 }
