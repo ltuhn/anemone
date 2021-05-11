@@ -1,3 +1,6 @@
+# include <avr/sleep.h>
+# define interruptPin 2
+
 int touchSensor1 = 2; 
 int touchSensor2 = 3;
 int screen = 4; 
@@ -10,6 +13,7 @@ int counter = 0;
 String feeling = "neutral"; //kan også bare bruke en int for dette
   
 void setup() {
+  Serial.begin(9600);
   pinMode(touchSensor1, INPUT);
   pinMode(touchSensor2, INPUT);
   pinMode(sleepButton, INPUT_PULLUP);
@@ -30,7 +34,7 @@ void loop() {
     petting();
   }
   if (buttonState == LOW) {
-    //sleep
+    sov();
   }
   //osv. 
 }
@@ -61,7 +65,23 @@ void petting() {
     counter++;
   }
 }
-    
+void sov() {
+  sleep_enable();
+  attachInterrupt(0, vaakneOpp, LOW); // maa noe endres her? 
+  set_sleep_mode(SLEEP_MODE_PWR_DOWN);
+  //digitalWrite(LED_BUILTIN, LOW);
+  delay(1000);
+  sleep_cpu();
+  //Serial.println("Koden fortsetter noe som betyr at jeg har vaakna opp");
+  //digitalWrite(LED_BUILTIN, HIGH); // LED lyser opp for aa vise at den har vaaknet opp, men kan erstatte dette med noe annet
+}
+
+void vaakneOpp() {
+  //Serial.println("Naa vaakner jeg opp");
+  sleep_disable();
+  detachInterrupt(0);
+}
+  
 void neutral() {
   //kode for nøytralt ansiktsuttrykk
   //ta ned armer
