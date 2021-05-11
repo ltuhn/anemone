@@ -1,35 +1,21 @@
-// Include the Servo library 
-
 #include "pitches.h"
-
-// Potentiometerkode: 
-
 
 // Potentiometerpin: 
 int potentiometerPin = A0;
 
 // Lydpin: 
-int lydPin = 4; 
-
-
+int lydPin = 4;
 int value = 0;
 int metthet = 500;
 int mett = 10000;
 long currentTime = 0;
 
-
 // SETUP:
 void setup() { 
-
   pinMode(lydPin, OUTPUT); 
   pinMode(potentiometerPin, INPUT_PULLUP);
- 
   value = map(value, 0, 1023, 0, 255);
-  
-  
 }
-
-
 
 // Hovedloop: 
 void loop(){ 
@@ -45,6 +31,7 @@ void loop(){
     }
     
   }
+
    
    // leser verdi fra potentiometeret: 
    int potStartpunkt = analogRead(potentiometerPin);
@@ -58,11 +45,8 @@ void loop(){
       metthet = 200;
       playAngry(lydPin);
    }
-    
-  
-  
-   
 
+    
     /* Her skal differansen i potentiometer, både positiv og negativ, legges til på mettheten: 
    vi starter med å se etter forskjeller i potentiometeret: */
    int potentiometerread = analogRead(potentiometerPin); 
