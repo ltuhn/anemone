@@ -1,3 +1,7 @@
+#include <Servo.h>
+
+Servo arm;
+int pos = 0;
 int touchSensor1 = 2; 
 int touchSensor2 = 3;
 int screen = 4; 
@@ -15,6 +19,7 @@ void setup() {
   pinMode(sleepButton, INPUT_PULLUP);
   pinMode(screen, OUTPUT);
   pinMode(piezo, OUTPUT);
+  arm.attach(9);
   
   currentTime = millis();
 }
@@ -68,6 +73,21 @@ void neutral() {
 }
 void happy() {
   //kode for glad ansiktsuttrykk og glad lyd
-  //bevege armer(?)
+  //bevege armer
+  for (pos = 0; pos <= 180; pos += 1) { // armen gaar opp
+      myservo.write(pos);
+  }
+  delay(1500);
+  for (pos = 180; pos >= 0; pos -= 1) { // armen gaar ned
+      myservo.write(pos);
+  }
+}
+
+void sad() {
+
+}
+
+void angry() {
+
 }
    
