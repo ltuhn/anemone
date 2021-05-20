@@ -8,6 +8,7 @@ int screen = 4;
 int piezo = 5;
 int sleepButton = 6; 
 int potentiometer = 7;
+int speaker = 8;
 
 int counter = 0;
 
@@ -19,6 +20,8 @@ void setup() {
   pinMode(sleepButton, INPUT_PULLUP);
   pinMode(screen, OUTPUT);
   pinMode(piezo, OUTPUT);
+  pinMode(potentiometer, INPUT_PULLUP);
+  pinMode(speaker, OUTPUT);
   arm.attach(9);
   
   currentTime = millis();
@@ -28,6 +31,7 @@ void loop() {
   int touchState1 = digitalRead(touchSensor1);
   int touchState2 = digitalRead(touchSensor2);
   int buttonState = digitalRead(sleepButton);
+  int potentiometerState = analogRead(potentiometer);
   
   checkFeeling(); 
   
