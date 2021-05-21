@@ -199,7 +199,8 @@ int piezo = 5;
 int sleepButton = 6; 
 int potentiometer = 7;
 int speaker = 8;
-
+int metthet = 1000; 
+int maksMetthet = 30000; 
 int counter = 0;
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
@@ -219,6 +220,7 @@ void setup() {
   display.display();
   
   currentTime = millis();
+  long naaværendeTid = 0;
 }
 
 void loop() {
@@ -226,7 +228,7 @@ void loop() {
   int touchState2 = digitalRead(touchSensor2);
   int buttonState = digitalRead(sleepButton);
   int potentiometerState = analogRead(potentiometer);
-  
+  metthetsKontroll();
   checkFeeling(); 
   
   if (touchState1 == HIGH or touchState2 == HIGH) {
@@ -264,12 +266,56 @@ void petting() {
     counter++;
   }
 }
+
+void metthetsKontroll() {
+  long tidsdifferanse = millis() - naaværendeTid; 
+  // dersom det har gått 5 sekunder og mettheten er over 0, trekk ifra 50:
+  if (tidsdifferanse > 5000) {
+    naaværendeTid = millis(); 
+    if (metthet > 0) {
+      metthet = metthet - 50;
+    }
+  }
+   int potStartpunkt = analogRead(potentiometerPin);
+    // dersom dyret er mett:
+   if (metthet >= maksMetthet) {
+      feeling = "happy"; 
+      spillMett(lydPin); 
+   }
+    // dersom dyret er skrubbsulten: 
+   if (metthet <= 1) {
+      metthet = 200; 
+      feeling = "angry";
+      playAngry(lydPin);
+   }
+    int potentiometerSluttpunkt = analogRead(potentiometer); 
+   // Differansen i potentiometer, både positiv og negativ, legges til på mettheten:
+   int differanse;
+   boolean erPositiv = (potentiometerSluttpunkt - potStartpunkt) > 0;
+   // dersom det er positiv endring i potentiometer: 
+   if (erPositiv) {
+      differanse = (potentiometerSluttpunkt - potStartpunkt); 
+   }
+    // dersom potentiometeret ikke har endret seg:
+   else if (potentiometerSluttpunkt == potStartpunkt) {
+      return;
+   }
+    // dersom det er negativ endring i potentiometer: 
+   else if (!erPositiv) {
+      differanse = (potStartpunkt - potentiometerSluttpunkt); 
+   }
+   // dersom mettheten ikke er over det høyeste nivået, vil vi legge til denne differansen til metthet: 
+   if (metthet <= maksMetthet) {
+        metthet = metthet + differanse; 
+   }
+}
     
 void neutral() {
   //kode for nøytralt ansiktsuttrykk
   display.drawBitmap(0, 0, vanlig_1, 128, 64, WHITE);
   //ta ned armer
 }
+
 void happy() {
   //kode for glad ansiktsuttrykk og glad lyd
   //bevege armer
