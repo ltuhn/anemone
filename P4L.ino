@@ -318,14 +318,14 @@ void neutral() {
 
 void happy() {
   //kode for glad ansiktsuttrykk og glad lyd
-  //bevege armer
   display.drawBitmap(0, 0, glad_1, 128, 64, WHITE);
+  //armer
   for (pos = 0; pos <= 180; pos += 1) { // armen gaar opp
-      myservo.write(pos);
+      arm.write(pos);
   }
   delay(1500);
   for (pos = 180; pos >= 0; pos -= 1) { // armen gaar ned
-      myservo.write(pos);
+      arm.write(pos);
   }
 }
 
@@ -333,20 +333,20 @@ void sad() {
   display.drawBitmap(0, 0, trist_1, 128, 64, WHITE);
   //armer
   for (pos = 0; pos <= 180; pos += 1) {
-      myservo.write(pos);
+      arm.write(pos);
   }
   delay(500);
   for (int i = 0; i < 2; i++) {
       for (pos = 180; pos >= 0; pos -= 1) {
-          myservo.write(pos);
+          arm.write(pos);
       }
       delay(150);
       for (pos = 0; pos <= 180; pos += 1) {
-          myservo.write(pos);
+          arm.write(pos);
       }
       delay(150);
       for (pos = 180; pos >= 0; pos -= 1) {
-          myservo.write(pos);
+          arm.write(pos);
       }   
   }
 }
@@ -356,11 +356,11 @@ void angry() {
   //armer
   for (int i = 0; i < 2; i++) {
       for (pos = 0; pos <= 180; pos += 1) {
-          myservo.write(pos);
+          arm.write(pos);
       }
       delay(300);
       for (pos = 180; pos >= 0; pos -= 1) {
-          myservo.write(pos);
+          arm.write(pos);
       }
       delay(300);             
   } 
