@@ -313,12 +313,14 @@ void metthetsKontroll() {
 void neutral() {
   //kode for nøytralt ansiktsuttrykk
   display.drawBitmap(0, 0, vanlig_1, 128, 64, WHITE);
+  display.display();
   //ta ned armer
 }
 
 void happy() {
   //kode for glad ansiktsuttrykk og glad lyd
   display.drawBitmap(0, 0, glad_1, 128, 64, WHITE);
+  display.display();
   //armer
   for (pos = 0; pos <= 180; pos += 1) { // armen gaar opp
       arm.write(pos);
@@ -331,6 +333,7 @@ void happy() {
 
 void sad() {
   display.drawBitmap(0, 0, trist_1, 128, 64, WHITE);
+  display.display();
   //armer
   for (pos = 0; pos <= 180; pos += 1) {
       arm.write(pos);
@@ -353,6 +356,7 @@ void sad() {
 
 void angry() {
   display.drawBitmap(0, 0, sint_1, 128, 64, WHITE);
+  display.display();
   //armer
   for (int i = 0; i < 2; i++) {
       for (pos = 0; pos <= 180; pos += 1) {
