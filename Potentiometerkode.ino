@@ -67,8 +67,14 @@ void loop(){
    }
 
    // dersom mettheten ikke er over det høyeste nivået, vil vi legge til denne differansen: 
-   if (metthet <= mett) {
- 
+   if (metthet < mett) {
+     if (differanse > 5) {
+        if (differanse + metthet > mett) {
+          metthet = mett; 
+          return; 
+          }
         metthet = metthet + differanse; 
+      }
+        
    }
 }
