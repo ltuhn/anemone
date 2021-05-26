@@ -196,7 +196,6 @@ int touchSensor1 = 2;
 int touchSensor2 = 3;
 int screen = 4; 
 int piezo = 5;
-int sleepButton = 6; 
 int potentiometer = 7;
 int speaker = 8;
 int metthet = 1000; 
@@ -208,7 +207,6 @@ String feeling = "neutral"; //kan også bare bruke en int for dette
 void setup() {
   pinMode(touchSensor1, INPUT);
   pinMode(touchSensor2, INPUT);
-  pinMode(sleepButton, INPUT_PULLUP);
   pinMode(screen, OUTPUT);
   pinMode(piezo, OUTPUT);
   pinMode(potentiometer, INPUT_PULLUP);
@@ -226,7 +224,6 @@ void setup() {
 void loop() {
   int touchState1 = digitalRead(touchSensor1);
   int touchState2 = digitalRead(touchSensor2);
-  int buttonState = digitalRead(sleepButton);
   int potentiometerState = analogRead(potentiometer);
   metthetsKontroll();
   checkFeeling(); 
@@ -234,10 +231,6 @@ void loop() {
   if (touchState1 == HIGH or touchState2 == HIGH) {
     petting();
   }
-  if (buttonState == LOW) {
-    //sleep
-  }
-  //osv. 
 }
 
 String checkFeeling() {
