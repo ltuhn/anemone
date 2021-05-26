@@ -268,28 +268,31 @@ void petting() {
 }
 
 void metthetsKontroll() {
-  long tidsdifferanse = millis() - naaværendeTid; 
-  // dersom det har gått 5 sekunder og mettheten er over 0, trekk ifra 50:
+  long tidsdifferanse = millis() - naavaerendeTid; 
+  // dersom mettheten er over 10, trekk fra 5. sekund
   if (tidsdifferanse > 5000) {
-    naaværendeTid = millis(); 
-    if (metthet > 0) {
-      metthet = metthet - 50;
-    }
+      naavaerendeTid = millis(); 
+      if (metthet > 0) {
+        metthet = metthet - 50;
+      } 
   }
+  Serial.println(metthet);
+   // leser verdi fra potentiometeret: 
    int potStartpunkt = analogRead(potentiometerPin);
     // dersom dyret er mett:
    if (metthet >= maksMetthet) {
       feeling = "happy"; 
-      spillMett(lydPin); 
+      spillMett(lydPin);   
    }
     // dersom dyret er skrubbsulten: 
    if (metthet <= 1) {
-      metthet = 200; 
+      metthet = 200;
       feeling = "angry";
       playAngry(lydPin);
    }
-    int potentiometerSluttpunkt = analogRead(potentiometer); 
-   // Differansen i potentiometer, både positiv og negativ, legges til på mettheten:
+    /* Her skal differansen i potentiometer, både positiv og negativ, legges til på mettheten: 
+   vi starter med å se etter forskjeller i potentiometeret: */
+   int potentiometerSluttpunkt = analogRead(potentiometerPin); 
    int differanse;
    boolean erPositiv = (potentiometerSluttpunkt - potStartpunkt) > 0;
    // dersom det er positiv endring i potentiometer: 
@@ -304,9 +307,17 @@ void metthetsKontroll() {
    else if (!erPositiv) {
       differanse = (potStartpunkt - potentiometerSluttpunkt); 
    }
-   // dersom mettheten ikke er over det høyeste nivået, vil vi legge til denne differansen til metthet: 
-   if (metthet <= maksMetthet) {
+
+   // dersom mettheten ikke er over det høyeste nivået, vil vi legge til denne differansen: 
+   if (metthet < maksMetthet) {
+     if (differanse > 5) {
+        if (differanse + metthet > maksMetthet) {
+            metthet = maksMetthet; 
+            return; 
+            }
         metthet = metthet + differanse; 
+     }
+        
    }
 }
     
