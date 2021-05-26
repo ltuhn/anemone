@@ -220,7 +220,7 @@ void setup() {
   display.display();
   
   currentTime = millis();
-  long naaværendeTid = 0;
+  long naavaerendeTid = 0;
 }
 
 void loop() {
