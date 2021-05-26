@@ -346,12 +346,18 @@ void happy() {
   display.drawBitmap(0, 0, glad_1, 128, 64, WHITE);
   display.display();
   //armer
-  for (pos = 0; pos <= 180; pos += 1) { // armen gaar opp
-      arm.write(pos);
+  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
+      arm1.write(pos1);
+  }
+  for (pos2 = 0; pos2 <= 180; pos2 += 1) { // armen gaar opp
+      arm2.write(pos2);
   }
   delay(1500);
-  for (pos = 180; pos >= 0; pos -= 1) { // armen gaar ned
-      arm.write(pos);
+  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
+      arm1.write(pos1);
+  }
+  for (pos2 = 180; pos2 >= 0; pos2 -= 1) { // armen gaar ned
+      arm2.write(pos2);
   }
 }
 
@@ -364,21 +370,34 @@ void sad() {
   display.drawBitmap(0, 0, trist_1, 128, 64, WHITE);
   display.display();
   //armer
-  for (pos = 0; pos <= 180; pos += 1) {
-      arm.write(pos);
+  for (pos1 = 0; pos1 <= 180; pos1 += 1) {
+      arm1.write(pos1);
+  }
+  for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+      arm2.write(pos2);
   }
   delay(500);
   for (int i = 0; i < 2; i++) {
-      for (pos = 180; pos >= 0; pos -= 1) {
-          arm.write(pos);
+      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
+          arm1.write(pos1);
+      }
+   for (int ix = 0; ix < 2; ix++) {
+      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+          arm2.write(pos2);
       }
       delay(150);
-      for (pos = 0; pos <= 180; pos += 1) {
-          arm.write(pos);
+      for (pos1 = 0; pos1 <= 180; pos1 += 1) {
+          arm1.write(pos1);
+      }
+      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+          arm2.write(pos2);
       }
       delay(150);
-      for (pos = 180; pos >= 0; pos -= 1) {
-          arm.write(pos);
+      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
+          arm1.write(pos1);
+      }   
+      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+          arm2.write(pos2);
       }   
   }
 }
