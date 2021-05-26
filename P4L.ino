@@ -190,26 +190,39 @@ const unsigned char sint_2[] PROGMEM = {
 };
 
 
-Servo arm;
-int pos = 0;
+Servo arm1;
+Servo arm2;
+int pos1 = 0;
+int pos2 = 0;
 int touchSensor1 = 2; 
 int touchSensor2 = 3;
 int screen = 4; 
+int piezo = 5;
+int sleepButton = 6; 
 int potentiometer = 7;
 int speaker = 8;
 int metthet = 1000; 
 int maksMetthet = 30000; 
 int counter = 0;
+int sintLED = 2;
+int gladLED = 4;
+int tristLED = 3;
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
   
 void setup() {
   pinMode(touchSensor1, INPUT);
   pinMode(touchSensor2, INPUT);
+  pinMode(sleepButton, INPUT_PULLUP);
   pinMode(screen, OUTPUT);
+  pinMode(piezo, OUTPUT);
   pinMode(potentiometer, INPUT_PULLUP);
   pinMode(speaker, OUTPUT);
-  arm.attach(9);
+  pinMode(sintLED, OUTPUT);
+  pinMode(gladLED, OUTPUT);
+  pinMode(tristLED, OUTPUT);
+  arm1.attach(9);
+  arm2.attach(10); // TEST
   
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
@@ -222,6 +235,7 @@ void setup() {
 void loop() {
   int touchState1 = digitalRead(touchSensor1);
   int touchState2 = digitalRead(touchSensor2);
+  int buttonState = digitalRead(sleepButton);
   int potentiometerState = analogRead(potentiometer);
   metthetsKontroll();
   checkFeeling(); 
@@ -229,6 +243,10 @@ void loop() {
   if (touchState1 == HIGH or touchState2 == HIGH) {
     petting();
   }
+  if (buttonState == LOW) {
+    //sleep
+  }
+  //osv. 
 }
 
 String checkFeeling() {
@@ -238,11 +256,9 @@ String checkFeeling() {
   if (feeling.equalsIgnoreCase("happy")) {
     happy();
   }
-  if (feeling.equalsIgnoreCase("sad")) {
-    sad();
+  if (feeling.equalsIgnoreCase("bored")) {
+    //osv. 
   }
-  if (feeling.equalsIgnoreCase("angry")) {
-    angry();
 }
 
 void petting() {
@@ -322,6 +338,10 @@ void neutral() {
 }
 
 void happy() {
+  // led
+  digitalWrite(2, LOW);
+  digitalWrite(3, LOW);
+  digitalWrite(4, HIGH);
   //kode for glad ansiktsuttrykk og glad lyd
   display.drawBitmap(0, 0, glad_1, 128, 64, WHITE);
   display.display();
@@ -336,6 +356,11 @@ void happy() {
 }
 
 void sad() {
+  // led
+  digitalWrite(2, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(3, HIGH);
+  // skjerm
   display.drawBitmap(0, 0, trist_1, 128, 64, WHITE);
   display.display();
   //armer
@@ -359,18 +384,30 @@ void sad() {
 }
 
 void angry() {
+  // led
+  digitalWrite(3, LOW);
+  digitalWrite(4, LOW);
+  digitalWrite(2, HIGH);
+  // skjerm
   display.drawBitmap(0, 0, sint_1, 128, 64, WHITE);
   display.display();
   //armer
   for (int i = 0; i < 2; i++) {
-      for (pos = 0; pos <= 180; pos += 1) {
-          arm.write(pos);
+      for (pos1 = 0; pos1 <= 180; pos1 += 1) {
+          arm1.write(pos1);
+      }
+  for (int ix = 0; ix < 2; ix++) {
+      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+          arm2.write(pos2);
       }
       delay(300);
-      for (pos = 180; pos >= 0; pos -= 1) {
-          arm.write(pos);
+      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
+          arm1.write(pos1);
+      }
+      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+          arm2.write(pos2);
       }
       delay(300);             
-  } 
+  }
 }
    
