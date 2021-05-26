@@ -195,7 +195,6 @@ int pos = 0;
 int touchSensor1 = 2; 
 int touchSensor2 = 3;
 int screen = 4; 
-int piezo = 5;
 int potentiometer = 7;
 int speaker = 8;
 int metthet = 1000; 
@@ -208,7 +207,6 @@ void setup() {
   pinMode(touchSensor1, INPUT);
   pinMode(touchSensor2, INPUT);
   pinMode(screen, OUTPUT);
-  pinMode(piezo, OUTPUT);
   pinMode(potentiometer, INPUT_PULLUP);
   pinMode(speaker, OUTPUT);
   arm.attach(9);
