@@ -238,9 +238,11 @@ String checkFeeling() {
   if (feeling.equalsIgnoreCase("happy")) {
     happy();
   }
-  if (feeling.equalsIgnoreCase("bored")) {
-    //osv. 
+  if (feeling.equalsIgnoreCase("sad")) {
+    sad();
   }
+  if (feeling.equalsIgnoreCase("angry")) {
+    angry();
 }
 
 void petting() {
