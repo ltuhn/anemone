@@ -215,48 +215,39 @@ Servo arm1;
 Servo arm2;
 int pos1 = 0;
 int pos2 = 0;
-int touchSensor1 = 2; 
-int touchSensor2 = 3;
-int screen = 4; 
-int piezo = 5;
-int sleepButton = 6; 
-int potentiometer = 7;
-int speaker = 8;
+int touchSensor1 = 7; 
+int touchSensor2 = 8;
+int potentiometer = 0;
+int speaker = 5;
 int metthet = 1000; 
 int maksMetthet = 30000; 
 int counter = 0;
-int sintLED = 2;
-int gladLED = 4;
-int tristLED = 3;
+//int sintLED = 4;
+//int gladLED = 3;
+//int tristLED = 2; 
+long currentTime = millis();
+long naavaerendeTid = 0;
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
   
 void setup() {
+  Serial.begin(9600);
   pinMode(touchSensor1, INPUT);
   pinMode(touchSensor2, INPUT);
-  pinMode(sleepButton, INPUT_PULLUP);
-  pinMode(screen, OUTPUT);
-  pinMode(piezo, OUTPUT);
   pinMode(potentiometer, INPUT_PULLUP);
   pinMode(speaker, OUTPUT);
-  pinMode(sintLED, OUTPUT);
-  pinMode(gladLED, OUTPUT);
-  pinMode(tristLED, OUTPUT);
-  arm1.attach(9);
-  arm2.attach(10); // TEST
-  
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-  display.clearDisplay();
-  display.display();
-  
-  currentTime = millis();
-  long naavaerendeTid = 0;
+  //pinMode(sintLED, OUTPUT);
+  //pinMode(gladLED, OUTPUT);
+  //pinMode(tristLED, OUTPUT);
+  arm1.attach(6);
+  arm2.attach(9); // TEST
+
+
 }
 
 void loop() {
   int touchState1 = digitalRead(touchSensor1);
   int touchState2 = digitalRead(touchSensor2);
-  int buttonState = digitalRead(sleepButton);
   int potentiometerState = analogRead(potentiometer);
   metthetsKontroll();
   checkFeeling(); 
@@ -264,26 +255,30 @@ void loop() {
   if (touchState1 == HIGH or touchState2 == HIGH) {
     petting();
   }
-  if (buttonState == LOW) {
-    //sleep
-  }
-  //osv. 
 }
 
 String checkFeeling() {
   if (feeling.equalsIgnoreCase("neutral")) { //er ikke helt sikker på om equalsIgnoreCase() fungerer likt som java i Arduino IDE
-    neutral();
+    Serial.print("fant ut nøytral");
+    neutral_feeling();
   }
   if (feeling.equalsIgnoreCase("happy")) {
-    happy();
+    Serial.print("fant ut glad");
+    happy_feeling();
   }
-  if (feeling.equalsIgnoreCase("bored")) {
-    //osv. 
+  if (feeling.equalsIgnoreCase("angry")) {
+    Serial.print("fant ut sint");
+    angry_feeling();
+  }
+  if (feeling.equalsIgnoreCase("sad")) {
+    Serial.print("fant ut trist");
+    sad_feeling();
   }
 }
 
 void petting() {
-  timeSincePet = currentTime - millis(); 
+  Serial.print("klapper");
+  long timeSincePet = currentTime - millis(); 
   
   if (timeSincePet > 9999) {
     counter = 0;
@@ -298,6 +293,7 @@ void petting() {
 }
 
 void metthetsKontroll() {
+  Serial.print("mett");
   long tidsdifferanse = millis() - naavaerendeTid; 
   // dersom mettheten er over 10, trekk fra 5. sekund
   if (tidsdifferanse > 5000) {
@@ -308,21 +304,21 @@ void metthetsKontroll() {
   }
   Serial.println(metthet);
    // leser verdi fra potentiometeret: 
-   int potStartpunkt = analogRead(potentiometerPin);
+   int potStartpunkt = analogRead(potentiometer);
     // dersom dyret er mett:
    if (metthet >= maksMetthet) {
       feeling = "happy"; 
-      spillMett(lydPin);   
+      spillMett(speaker);   
    }
     // dersom dyret er skrubbsulten: 
    if (metthet <= 1) {
       metthet = 200;
       feeling = "angry";
-      playAngry(lydPin);
+      playAngry(speaker);
    }
     /* Her skal differansen i potentiometer, både positiv og negativ, legges til på mettheten: 
    vi starter med å se etter forskjeller i potentiometeret: */
-   int potentiometerSluttpunkt = analogRead(potentiometerPin); 
+   int potentiometerSluttpunkt = analogRead(potentiometer); 
    int differanse;
    boolean erPositiv = (potentiometerSluttpunkt - potStartpunkt) > 0;
    // dersom det er positiv endring i potentiometer: 
@@ -351,7 +347,8 @@ void metthetsKontroll() {
    }
 }
     
-void neutral() {
+void neutral_feeling() {
+  Serial.print("er nøytral");
   //kode for nøytralt ansiktsuttrykk
   skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
@@ -360,11 +357,12 @@ void neutral() {
   //ta ned armer
 }
 
-void happy() {
+void happy_feeling() {
+  Serial.print("er glad");
   // led
-  digitalWrite(2, LOW);
-  digitalWrite(3, LOW);
-  digitalWrite(4, HIGH);
+  //digitalWrite(tristLED, LOW);
+  //digitalWrite(sintLED, LOW);
+  //digitalWrite(gladLED, HIGH);
   //kode for glad ansiktsuttrykk og glad lyd
  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
@@ -386,11 +384,12 @@ void happy() {
   }
 }
 
-void sad() {
+void sad_feeling() {
+  Serial.print("er trist");
   // led
-  digitalWrite(2, LOW);
-  digitalWrite(4, LOW);
-  digitalWrite(3, HIGH);
+  //digitalWrite(sintLED, LOW);
+  //digitalWrite(gladLED, LOW);
+  //digitalWrite(tristLED, HIGH);
   // skjerm
   skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
@@ -427,13 +426,15 @@ void sad() {
           arm2.write(pos2);
       }   
   }
+  }
 }
 
-void angry() {
+void angry_feeling() {
+  Serial.print("er sur");
   // led
-  digitalWrite(3, LOW);
-  digitalWrite(4, LOW);
-  digitalWrite(2, HIGH);
+  //digitalWrite(gladLED, LOW);
+  //digitalWrite(tristLED, LOW);
+  //digitalWrite(sintLED, HIGH);
   // skjerm
   skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
@@ -456,6 +457,8 @@ void angry() {
           arm2.write(pos2);
       }
       delay(300);             
+    }
   }
 }
+   
    
