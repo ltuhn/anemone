@@ -1,4 +1,4 @@
-//#include <Servo.h>
+#include <Servo.h>
 #include <SPI.h>
 #include <Wire.h>
 //#include <Adafruit_GFX.h>
@@ -211,8 +211,8 @@
 //  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
 //  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
 //};
-//Servo arm1;
-//Servo arm2;
+Servo arm1;
+Servo arm2;
 int pos1 = 0;
 int pos2 = 0;
 int touchSensor1 = 7; 
@@ -228,6 +228,7 @@ int counter = 0;
 long currentTime = millis();
 long naavaerendeTid = 0;
 int potStartpunkt;
+String forrigeFolelse;
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
   
@@ -240,8 +241,8 @@ void setup() {
   //pinMode(sintLED, OUTPUT);
   //pinMode(gladLED, OUTPUT);
   //pinMode(tristLED, OUTPUT);
-//  arm1.attach(6);
-//  arm2.attach(9); // TEST
+  arm1.attach(6);
+  arm2.attach(9); // TEST
   potStartpunkt = analogRead(potentiometer);
 }
 
@@ -252,24 +253,31 @@ void loop() {
   metthetsKontroll();
   checkFeeling(); 
   
-//  if (touchState1 == HIGH || touchState2 == HIGH) {
+    if (touchState1 == HIGH || touchState2 == HIGH) {
     petting();
-//  }
+    }
 }
 
 void checkFeeling() {
+  if (forrigeFolelse.equalsIgnoreCase(feeling)) {
+    return;  
+  }
   if (feeling.equalsIgnoreCase("neutral")) { //er ikke helt sikker på om equalsIgnoreCase() fungerer likt som java i Arduino IDE
     Serial.print("fant ut nøytral");
     neutral_feeling();
+    forrigeFolelse = "neutral";
   } else if (feeling.equalsIgnoreCase("happy")) {
     Serial.print("fant ut glad");
     happy_feeling();
+    forrigeFolelse = "happy";
   } else if (feeling.equalsIgnoreCase("angry")) {
     Serial.print("fant ut sint");
     angry_feeling();
+    forrigeFolelse = "angry";
   } else if (feeling.equalsIgnoreCase("sad")) {
     Serial.print("fant ut trist");
     sad_feeling();
+    forrigeFolelse = "sad";
   }
 }
 
@@ -280,7 +288,7 @@ void petting() {
   if (timeSincePet > 9999) {
     counter = 0;
   }
-  if (counter >= 20) {
+  if (counter >= 100) {
     feeling = "angry";
   } 
   else {
@@ -368,19 +376,19 @@ void happy_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, glad, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
-//  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 0; pos2 <= 180; pos2 += 1) { // armen gaar opp
-//      arm2.write(pos2);
-//  }
-//  delay(1500);
-//  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 180; pos2 >= 0; pos2 -= 1) { // armen gaar ned
-//      arm2.write(pos2);
-//  }
+  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
+      arm1.write(pos1);
+  }
+  for (pos2 = 0; pos2 <= 180; pos2 += 1) { // armen gaar opp
+      arm2.write(pos2);
+  }
+  delay(1500);
+  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
+      arm1.write(pos1);
+  }
+  for (pos2 = 180; pos2 >= 0; pos2 -= 1) { // armen gaar ned
+      arm2.write(pos2);
+  }
 }
 
 void sad_feeling() {
@@ -395,37 +403,37 @@ void sad_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, trist, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
-//  for (pos1 = 0; pos1 <= 180; pos1 += 1) {
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 0; pos2 <= 180; pos2 += 1) {
-//      arm2.write(pos2);
-//  }
-//  delay(500);
-//  for (int i = 0; i < 2; i++) {
-//      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
-//          arm1.write(pos1);
-//      }
-//   for (int ix = 0; ix < 2; ix++) {
-//      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
-//          arm2.write(pos2);
-//      }
-//      delay(150);
-//      for (pos1 = 0; pos1 <= 180; pos1 += 1) {
-//          arm1.write(pos1);
-//      }
-//      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
-//          arm2.write(pos2);
-//      }
-//      delay(150);
-//      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
-//          arm1.write(pos1);
-//      }   
-//      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
-//          arm2.write(pos2);
-//      }   
-//  }
-//  }
+  for (pos1 = 0; pos1 <= 180; pos1 += 1) {
+      arm1.write(pos1);
+  }
+  for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+      arm2.write(pos2);
+  }
+  delay(500);
+  for (int i = 0; i < 2; i++) {
+      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
+          arm1.write(pos1);
+      }
+   for (int ix = 0; ix < 2; ix++) {
+      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+          arm2.write(pos2);
+      }
+      delay(150);
+      for (pos1 = 0; pos1 <= 180; pos1 += 1) {
+          arm1.write(pos1);
+      }
+      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+          arm2.write(pos2);
+      }
+      delay(150);
+      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
+          arm1.write(pos1);
+      }   
+      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+          arm2.write(pos2);
+      }   
+  }
+  }
 }
 
 void angry_feeling() {
@@ -440,22 +448,22 @@ void angry_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, sint, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
-//  for (int i = 0; i < 2; i++) {
-//      for (pos1 = 0; pos1 <= 180; pos1 += 1) {
-//          arm1.write(pos1);
-//      }
-//  for (int ix = 0; ix < 2; ix++) {
-//      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
-//          arm2.write(pos2);
-//      }
-//      delay(300);
-//      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
-//          arm1.write(pos1);
-//      }
-//      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
-//          arm2.write(pos2);
-//      }
-//      delay(300);             
-//    }
-//  }
+  for (int i = 0; i < 2; i++) {
+      for (pos1 = 0; pos1 <= 180; pos1 += 1) {
+          arm1.write(pos1);
+      }
+  for (int ix = 0; ix < 2; ix++) {
+      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+          arm2.write(pos2);
+      }
+      delay(300);
+      for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
+          arm1.write(pos1);
+      }
+      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+          arm2.write(pos2);
+      }
+      delay(300);             
+    }
+  }
 }
