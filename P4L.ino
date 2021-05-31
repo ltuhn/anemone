@@ -23,7 +23,8 @@ long currentTime = millis();
 long naavaerendeTid = 0;
 int potStartpunkt;
 String forrigeFolelse;
-int andreArduino; 
+int arduinoPin = 1;
+int andreArduino = analogRead(arduinoPin); //?
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
   
@@ -33,6 +34,7 @@ void setup() {
   pinMode(touchSensor2, INPUT);
   pinMode(potentiometer, INPUT_PULLUP);
   pinMode(speaker, OUTPUT);
+  pinMode(arduinoPin, OUTPUT); 
   //pinMode(sintLED, OUTPUT);
   //pinMode(gladLED, OUTPUT);
   //pinMode(tristLED, OUTPUT);
@@ -41,7 +43,6 @@ void setup() {
   potStartpunkt = analogRead(potentiometer);
   arm1.write(pos1);
   arm2.write(pos2);
-  andreArduino = analogRead(A1);
 }
 
 void loop() {
@@ -51,14 +52,18 @@ void loop() {
 //  metthetsKontroll();
 //  checkFeeling(); 
 //  
-//    if (touchState1 == HIGH || touchState2 == HIGH) {
-//    petting();
-//    }
-
+//  if (touchState1 == HIGH || touchState2 == HIGH) {
+//  petting();
+//  }
   happy_feeling();
-  delay(1000);
+  delay(5000);
   angry_feeling();
-  delay(1000);
+  delay(5000);
+  sad_feeling();
+  delay(5000);
+  neutral_feeling(); 
+  delay(5000); 
+
 }
 
 void checkFeeling() {
@@ -158,7 +163,7 @@ void metthetsKontroll() {
     
 void neutral_feeling() {
   Serial.print("er nøytral");
-  analogWrite(andreArduino, 900); 
+  analogWrite(arduinoPin, 1000); 
   //kode for nøytralt ansiktsuttrykk
 //  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 //  skjerm_oynene.clearDisplay();
@@ -169,7 +174,7 @@ void neutral_feeling() {
 
 void happy_feeling() {
   Serial.print("er glad");
-  analogWrite(andreArduino, 100); 
+  analogWrite(arduinoPin, 250); 
   // led
   //digitalWrite(tristLED, LOW);
   //digitalWrite(sintLED, LOW);
@@ -196,14 +201,14 @@ void happy_feeling() {
 
   arm1.write(30);
   arm2.write(150);
-  delay(1500);
+  delay(1000);
   arm1.write(0);
   arm2.write(180);
 }
 
 void sad_feeling() {
   Serial.print("er trist");
-  analogWrite(andreArduino, 700); 
+  analogWrite(arduinoPin, 750); 
   // led
   //digitalWrite(sintLED, LOW);
   //digitalWrite(gladLED, LOW);
@@ -229,54 +234,18 @@ void sad_feeling() {
 
 void angry_feeling() {
   Serial.print("er sur");
-  analogWrite(andreArduino, 450); 
+  analogWrite(arduinoPin, 500); 
   // led
   //digitalWrite(gladLED, LOW);
   //digitalWrite(tristLED, LOW);
   //digitalWrite(sintLED, HIGH);
-  // skjerm
-//  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-//  skjerm_oynene.clearDisplay();
-//  skjerm_oynene.drawBitmap(0, 0, sint, 128, 64, WHITE);
-//  skjerm_oynene.display();
-  //armer
-//  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
-//      arm2.write(pos2);
-//  }
-//  delay(100);
-//  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
-//      arm2.write(pos2);
-//  }
-//  delay(100);
-//  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
-//      arm2.write(pos2);
-//  }
-//  delay(100);
-//  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-//      arm1.write(pos1);
-//  }
-//  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
-//      arm2.write(pos2);
-//  }
 
   arm1.write(180);
   arm2.write(0);
-  delay(100);
   arm1.write(0);
   arm2.write(180);
-  delay(100);
   arm1.write(180);
   arm2.write(0);
-  delay(100);
   arm1.write(180);
   arm2.write(0);
 }
