@@ -1,12 +1,12 @@
 #include <Servo.h>
 #include <SPI.h>
 #include <Wire.h>
-//#include <Adafruit_GFX.h>
-//#include <Adafruit_SSD1306.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
 
 //#define OLED_RESET 4
 //Adafruit_SSD1306 skjerm_oynene(OLED_RESET);
-//
+
 ////Bitmap for OLED skjerm
 //const unsigned char vanlig[] PROGMEM = {
 //0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -249,15 +249,18 @@ void setup() {
 }
 
 void loop() {
-  int touchState1 = digitalRead(touchSensor1);
-  int touchState2 = digitalRead(touchSensor2);
-  int potentiometerState = analogRead(potentiometer);
-  metthetsKontroll();
-  checkFeeling(); 
-  
-    if (touchState1 == HIGH || touchState2 == HIGH) {
-    petting();
-    }
+//  int touchState1 = digitalRead(touchSensor1);
+//  int touchState2 = digitalRead(touchSensor2);
+//  int potentiometerState = analogRead(potentiometer);
+//  metthetsKontroll();
+//  checkFeeling(); 
+//  
+//    if (touchState1 == HIGH || touchState2 == HIGH) {
+//    petting();
+//    }
+
+  happy_feeling();
+  delay(1000);
 }
 
 void checkFeeling() {
@@ -377,19 +380,25 @@ void happy_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, glad, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
-  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-      arm1.write(pos1);
-  }
-  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
-      arm2.write(pos2);
-  }
+//  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
+//      arm1.write(pos1);
+//  }
+//  for (pos2 = 0; pos2 <= 180; pos2 += 1) { // armen gaar opp, -
+//      arm2.write(pos2);
+//  }
+//  delay(1500);
+//  for (pos1 = 180; pos1 >= 0; pos1 += 1) { // armen gaar ned, -
+//      arm1.write(pos1);
+//  }
+//  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned, +
+//      arm2.write(pos2);
+//  }
+
+  arm1.write(30);
+  arm2.write(150);
   delay(1500);
-  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-      arm1.write(pos1);
-  }
-  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
-      arm2.write(pos2);
-  }
+  arm1.write(0);
+  arm2.write(180);
 }
 
 void sad_feeling() {
@@ -404,19 +413,6 @@ void sad_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, trist, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
-  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-      arm1.write(pos1);
-  }
-  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
-      arm2.write(pos2);
-  }
-  delay(1500);
-  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-      arm1.write(pos1);
-  }
-  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
-      arm2.write(pos2);
-  }
 }
 
 void angry_feeling() {
@@ -431,31 +427,31 @@ void angry_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, sint, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
-  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-      arm1.write(pos1);
-  }
-  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
-      arm2.write(pos2);
-  }
-  delay(100);
-  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-      arm1.write(pos1);
-  }
-  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
-      arm2.write(pos2);
-  }
-  delay(100);
-  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
-      arm1.write(pos1);
-  }
-  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
-      arm2.write(pos2);
-  }
-  delay(100);
-  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
-      arm1.write(pos1);
-  }
-  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
-      arm2.write(pos2);
-  }
+//  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
+//      arm1.write(pos1);
+//  }
+//  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
+//      arm2.write(pos2);
+//  }
+//  delay(100);
+//  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
+//      arm1.write(pos1);
+//  }
+//  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
+//      arm2.write(pos2);
+//  }
+//  delay(100);
+//  for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
+//      arm1.write(pos1);
+//  }
+//  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
+//      arm2.write(pos2);
+//  }
+//  delay(100);
+//  for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
+//      arm1.write(pos1);
+//  }
+//  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
+//      arm2.write(pos2);
+//  }
 }
