@@ -244,6 +244,8 @@ void setup() {
   arm1.attach(6);
   arm2.attach(9); // TEST
   potStartpunkt = analogRead(potentiometer);
+  arm1.write(0);
+  arm2.write(180);
 }
 
 void loop() {
@@ -379,14 +381,14 @@ void happy_feeling() {
   for (pos1 = 0; pos1 <= 180; pos1 += 1) { // armen gaar opp
       arm1.write(pos1);
   }
-  for (pos2 = 0; pos2 <= 180; pos2 += 1) { // armen gaar opp
+  for (pos2 = 0; pos2 <= 180; pos2 -= 1) { // armen gaar opp
       arm2.write(pos2);
   }
   delay(1500);
   for (pos1 = 180; pos1 >= 0; pos1 -= 1) { // armen gaar ned
       arm1.write(pos1);
   }
-  for (pos2 = 180; pos2 >= 0; pos2 -= 1) { // armen gaar ned
+  for (pos2 = 180; pos2 >= 0; pos2 += 1) { // armen gaar ned
       arm2.write(pos2);
   }
 }
@@ -406,7 +408,7 @@ void sad_feeling() {
   for (pos1 = 0; pos1 <= 180; pos1 += 1) {
       arm1.write(pos1);
   }
-  for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+  for (pos2 = 0; pos2 <= 180; pos2 -= 1) {
       arm2.write(pos2);
   }
   delay(500);
@@ -415,21 +417,21 @@ void sad_feeling() {
           arm1.write(pos1);
       }
    for (int ix = 0; ix < 2; ix++) {
-      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+      for (pos2 = 180; pos2 >= 0; pos2 += 1) {
           arm2.write(pos2);
       }
       delay(150);
       for (pos1 = 0; pos1 <= 180; pos1 += 1) {
           arm1.write(pos1);
       }
-      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
+      for (pos2 = 0; pos2 <= 180; pos2 -= 1) {
           arm2.write(pos2);
       }
       delay(150);
       for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
           arm1.write(pos1);
       }   
-      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
+      for (pos2 = 180; pos2 >= 0; pos2 += 1) {
           arm2.write(pos2);
       }   
   }
@@ -451,19 +453,12 @@ void angry_feeling() {
   for (int i = 0; i < 2; i++) {
       for (pos1 = 0; pos1 <= 180; pos1 += 1) {
           arm1.write(pos1);
-      }
-  for (int ix = 0; ix < 2; ix++) {
-      for (pos2 = 0; pos2 <= 180; pos2 += 1) {
-          arm2.write(pos2);
+          arm2.write(pos2 - pos1);
       }
       delay(300);
       for (pos1 = 180; pos1 >= 0; pos1 -= 1) {
           arm1.write(pos1);
-      }
-      for (pos2 = 180; pos2 >= 0; pos2 -= 1) {
-          arm2.write(pos2);
-      }
-      delay(300);             
-    }
+          arm2.write(pos2 - pos1);
+      }          
   }
 }
