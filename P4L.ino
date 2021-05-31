@@ -227,6 +227,7 @@ int counter = 0;
 //int tristLED = 2; 
 long currentTime = millis();
 long naavaerendeTid = 0;
+int potStartpunkt;
 
 String feeling = "neutral"; //kan også bare bruke en int for dette
   
@@ -241,8 +242,7 @@ void setup() {
   //pinMode(tristLED, OUTPUT);
 //  arm1.attach(6);
 //  arm2.attach(9); // TEST
-
-
+  potStartpunkt = analogRead(potentiometer);
 }
 
 void loop() {
@@ -290,7 +290,7 @@ void petting() {
 }
 
 void metthetsKontroll() {
-  Serial.print("mett");
+  Serial.print("mett\n");
   long tidsdifferanse = millis() - naavaerendeTid; 
   // dersom mettheten er over 10, trekk fra 5. sekund
   if (tidsdifferanse > 5000) {
@@ -301,7 +301,6 @@ void metthetsKontroll() {
   }
   Serial.println(metthet);
    // leser verdi fra potentiometeret: 
-   int potStartpunkt = analogRead(potentiometer);
     // dersom dyret er mett:
    if (metthet >= maksMetthet) {
       feeling = "happy"; 
@@ -315,12 +314,13 @@ void metthetsKontroll() {
    }
     /* Her skal differansen i potentiometer, både positiv og negativ, legges til på mettheten: 
    vi starter med å se etter forskjeller i potentiometeret: */
-   int potentiometerSluttpunkt = analogRead(potentiometer); 
+   int potentiometerSluttpunkt = analogRead(potentiometer);
    int differanse;
    boolean erPositiv = (potentiometerSluttpunkt - potStartpunkt) > 0;
    // dersom det er positiv endring i potentiometer: 
    if (erPositiv) {
       differanse = (potentiometerSluttpunkt - potStartpunkt); 
+      potStartpunkt = potentiometerSluttpunkt; // ****
    }
     // dersom potentiometeret ikke har endret seg:
    else if (potentiometerSluttpunkt == potStartpunkt) {
@@ -328,11 +328,13 @@ void metthetsKontroll() {
    }
     // dersom det er negativ endring i potentiometer: 
    else if (!erPositiv) {
-      differanse = (potStartpunkt - potentiometerSluttpunkt); 
+      differanse = (potStartpunkt - potentiometerSluttpunkt);
+      potStartpunkt = potentiometerSluttpunkt; // ****
    }
 
    // dersom mettheten ikke er over det høyeste nivået, vil vi legge til denne differansen: 
    if (metthet < maksMetthet) {
+     Serial.print("metthet < maksmetthet");
      if (differanse > 5) {
         if (differanse + metthet > maksMetthet) {
             metthet = maksMetthet; 
