@@ -214,6 +214,17 @@ void sad_feeling() {
 //  skjerm_oynene.drawBitmap(0, 0, trist, 128, 64, WHITE);
 //  skjerm_oynene.display();
   //armer
+  arm1.write(20);
+  arm2.write(160);
+  delay(100);
+  arm1.write(0);
+  arm2.write(180);
+  delay(100);
+  arm1.write(20);
+  arm2.write(160);
+  delay(100);
+  arm1.write(0);
+  arm2.write(180);
 }
 
 void angry_feeling() {
