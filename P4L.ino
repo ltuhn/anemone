@@ -159,7 +159,7 @@ void metthetsKontroll() {
 void neutral_feeling() {
   Serial.print("er nøytral");
   analogWrite(andreArduino, 900); 
-  //kode for nøytralt ansiktsuttrykk
+  //kode for nøytralt ansikusuttrykk
 //  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
 //  skjerm_oynene.clearDisplay();
 //  skjerm_oynene.drawBitmap(0, 0, vanlig, 128, 64, WHITE);
