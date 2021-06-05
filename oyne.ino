@@ -215,6 +215,7 @@ int forrigeFolelse;
 int signal = 0; 
 void setup() {
   Serial.begin(9600);
+  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   neutral_screen();
   pinMode(A0, INPUT);
 }
@@ -254,25 +255,21 @@ void assignFeeling() {
 }
 
 void happy_screen() {
-  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
   skjerm_oynene.drawBitmap(0, 0, glad, 128, 64, WHITE);
   skjerm_oynene.display();
 }
 void angry_screen() {
-  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
   skjerm_oynene.drawBitmap(0, 0, sint, 128, 64, WHITE);
   skjerm_oynene.display();
 }
 void sad_screen() {
-  skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   skjerm_oynene.clearDisplay();
   skjerm_oynene.drawBitmap(0, 0, trist, 128, 64, WHITE);
   skjerm_oynene.display();
 }
 void neutral_screen() {
- skjerm_oynene.begin(SSD1306_SWITCHCAPVCC, 0x3C);
  skjerm_oynene.clearDisplay();
  skjerm_oynene.drawBitmap(0, 0, vanlig, 128, 64, WHITE);
  skjerm_oynene.display();
