@@ -235,17 +235,17 @@ void assignFeeling() {
       happy_screen();
       forrigeFolelse = 250;
     }
-    else if (signal == 500) {
+    else if (signal < 500) {
       Serial.println("Signal: sint");
       angry_screen(); 
       forrigeFolelse = 500;
     }
-    else if (signal == 750) {
+    else if (signal < 750) {
       Serial.println("Signal: trist");
       sad_screen();
       forrigeFolelse = 750;
     }
-    else if (signal == 1000) {
+    else if (signal < 1000) {
       Serial.println("Signal: neutral");
       neutral_screen(); 
       forrigeFolelse = 1000; 
